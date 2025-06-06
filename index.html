@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Clue Terminal</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cutive+Mono&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0;
+        background-color: black;
+        color: white;
+        font-family: "Cutive Mono", monospace;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        flex-direction: column;
+      }
+
+      #onboarding {
+        position: fixed;
+        left: 0;
+        height: 100vh;
+        width: 100vw;
+        background-image: url("onboarding.jpg");
+        background-size: cover;
+        background-position: center 10%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        z-index: 9999;
+      }
+
+      #onboardingOne {
+        position: fixed;
+        left: 0;
+        height: 100vh;
+        width: 100vw;
+        background-image: url("timeOfDeath.jpg");
+        background-size: cover;
+        background-position: center 10%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        z-index: 9999;
+      }
+
+      #onboardingTwo {
+        position: fixed;
+        left: 0;
+        height: 100vh;
+        width: 100vw;
+        background-image: url("causeOfDeath.jpg");
+        background-size: cover;
+        background-position: center 10%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        z-index: 9999;
+      }
+      #finalOnboarding {
+        position: fixed;
+        left: 0;
+        height: 100vh;
+        width: 100vw;
+        background-image: url("causeOfDeath.jpg");
+        background-size: cover;
+        background-position: center 10%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        z-index: 9999;
+      }
+
+      #finalStory {
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100vh;
+        width: 100vw;
+        background-image: url("final.png");
+        background-size: cover;
+        background-position: center 10%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        z-index: 9999;
+      }
+
+      #storyText {
+        margin-top: 10%;
+        margin-left: 5%;
+        margin-right: 5%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: left;
+        font-size: 20px;
+      }
+
+      #nextButton {
+        padding: 12px 24px;
+        font-size: 1.2rem;
+        background-color: rgba(218, 217, 222);
+        color: black;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-top: 20%;
+      }
+
+      #output {
+        margin-bottom: 20px;
+        white-space: pre-wrap;
+        text-align: left;
+        width: 80%;
+        max-width: 600px;
+        font-size: 18px;
+        line-height: 1.5;
+      }
+
+      #typingPrompt {
+        margin-bottom: 20px;
+        text-align: left;
+        width: 80%;
+        max-width: 600px;
+        font-size: 16px;
+        line-height: 1.5;
+      }
+
+      input[type="text"] {
+        background: black;
+        color: white;
+        border: none;
+        border-bottom: 1px solid white;
+        font-family: inherit;
+        font-size: 18px;
+        width: 80%;
+        max-width: 600px;
+        outline: none;
+        padding: 8px 0;
+        margin-bottom: 10px;
+      }
+
+      input[type="text"]::placeholder {
+        color: #ffffff88;
+        font-style: italic;
+      }
+
+      #helpIcon {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        cursor: pointer;
+        font-size: 20px;
+        user-select: none;
+        color: white;
+      }
+
+      #soundIcon {
+        position: absolute;
+        top: 10px;
+        left: 20px;
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+        font-size: 20px;
+        user-select: none;
+        color: white;
+        background-image: url("sound-muted.png");
+      }
+
+      #helpMenu {
+        position: absolute;
+        top: 40px;
+        right: 20px;
+        background: #111;
+        border: 1px solid #ffffff33;
+        padding: 10px;
+        font-size: 14px;
+        display: none;
+        color: white;
+        box-shadow: 0 0 8px #ffffff22;
+      }
+
+      #coffeeStain {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        width: 80px;
+        opacity: 0.08;
+        pointer-events: none;
+        transform: rotate(-15deg);
+      }
+
+      #readyButton {
+        margin-top: 2%;
+        margin-bottom: 2%;
+        background-color: white;
+        color: black;
+        border: 2px solid black;
+        border-radius: 999px; /* makes it fully pill-shaped */
+        padding: 15px 40px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      #readyButton:hover {
+        background-color: black;
+        color: white;
+      }
+
+      #suspectInput {
+        background: black;
+        color: white;
+        border: none;
+        border-bottom: 1px solid white;
+        font-family: inherit;
+        font-size: 16px; /* slightly smaller for full text visibility */
+        width: 80%; /* gives room for longer placeholders */
+        max-width: 600px;
+        outline: none;
+        padding: 8px 0;
+        margin-bottom: 10px;
+      }
+
+      #suspectInput::placeholder {
+        color: #ffffff88;
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="onboarding">
+      <button id="nextButton">Start Investigation</button>
+    </div>
+    <div id="mainPage">
+      <div id="finalStory">
+        <p id="storyText">
+          Christine once dreamed of attending Oxford. However, that dream ended
+          the day Jane Stanford gave her an F on her final project.<br /><br />
+
+          That grade cost her a future she’d carefully planned. She smiled
+          through it, even taking a job at a game startup which she hated, and
+          found her way back to academia. Christine never forgot. Or forgave.
+          When she returned to Stanford as a lecturer, it wasn’t just nostalgia
+          that brought her back. It was opportunity.<br /><br />
+
+          She rekindled a casual faculty lounge friendship with Jane, just
+          enough to learn her habits... like when she drank her evening tea. She
+          knew Bertha made it. She knew Jane worked late in the chemistry
+          building.<br /><br />
+
+          On the night of the murder, while baking with Amy, Christine waited
+          for the perfect moment. When Amy stepped away to call her mom,
+          Christine slipped out, intercepted Jane’s tea, poisoned it, and
+          returned before Amy noticed she was gone.<br /><br />
+
+          The next morning, Jane Stanford was found dead.<br /><br />
+
+          At first glance, it could have been Bertha. After all, she prepared
+          the tea. Or Amy, whose alibi had a gap. Marc, the Tree, and the Fizz
+          CEO had motive and mystery. But only one had both the access and the
+          grudge.<br /><br />
+
+          Christine hoped someone else would be blamed. But you saw through
+          it.<br /><br />
+
+          You saw the motive.<br />
+          You caught the lie.<br />
+          Well done, Detective.
+        </p>
+      </div>
+      <img id="soundIcon" src="sound-muted.png" />
+      <div id="helpIcon">❔</div>
+      <div id="helpMenu">
+        <strong>Available commands:</strong><br />
+        crossword<br />
+        map<br />
+        autopsy<br />
+        newsletter<br />
+        deposition
+      </div>
+
+      <div id="output">Your investigation begins.</div>
+      <div id="typingPrompt">
+        Type in the name of the round you want a hint on. Use the help button
+        for possible commands to input.
+      </div>
+      <input
+        type="text"
+        id="cmdInput"
+        placeholder="Insert valid command here..."
+      />
+      <button id="readyButton">I KNOW WHO THE MURDERER IS</button>
+      <input
+        type="text"
+        id="suspectInput"
+        placeholder="Enter your suspect's name. Your reputation's on the line."
+      />
+
+      <img id="coffeeStain" src="https://i.imgur.com/p41ykcw.png" alt="" />
+    </div>
+    <script>
+      document.getElementById("finalStory").style.display = "none"; //makes finalStory page not show
+      document.getElementById("mainPage").style.display = "none";
+
+      const mysterySound = new Audio("mystery-sound.mp3"); // sets up sound to be played
+      mysterySound.loop = true;
+      mysterySound.play();
+
+      const output = document.getElementById("output");
+      const input = document.getElementById("cmdInput");
+      const suspectInput = document.getElementById("suspectInput");
+      const helpIcon = document.getElementById("helpIcon");
+      const readyButton = document.getElementById("readyButton");
+      const soundIcon = document.getElementById("soundIcon");
+      const helpMenu = document.getElementById("helpMenu");
+
+      suspectInput.style.display = "none";
+      onboardingButton = document
+        .getElementById("nextButton")
+        .addEventListener("click", function () {
+          if (
+            getComputedStyle(
+              document.getElementById("onboarding")
+            ).backgroundImage.includes("onboarding.jpg")
+          ) {
+            document.getElementById("nextButton").style.display = "none";
+          }
+        });
+
+      onboardingPage = document
+        .getElementById("onboarding")
+        .addEventListener("click", function () {
+          if (
+            getComputedStyle(
+              document.getElementById("onboarding")
+            ).backgroundImage.includes("onboarding.jpg")
+          ) {
+            document.getElementById("onboarding").style.backgroundImage =
+              "url('timeofdeath.png')";
+          } else if (
+            getComputedStyle(
+              document.getElementById("onboarding")
+            ).backgroundImage.includes("timeofdeath.png")
+          ) {
+            document.getElementById("onboarding").style.backgroundImage =
+              "url('causeofdeath.png')";
+          } else if (
+            getComputedStyle(
+              document.getElementById("onboarding")
+            ).backgroundImage.includes("causeofdeath.png")
+          ) {
+            document.getElementById("onboarding").style.backgroundImage =
+              "url('finalonboard.png')";
+          } else {
+            document.getElementById("mainPage").style.display = "block";
+            document.getElementById("onboarding").style.display = "none";
+          }
+        });
+      document
+        .getElementById("soundIcon")
+        .addEventListener("click", function () {
+          if (
+            document.getElementById("soundIcon").src.includes("sound-icon.png")
+          ) {
+            document.getElementById("soundIcon").src = "sound-muted.png";
+            mysterySound.pause();
+          } else {
+            document.getElementById("soundIcon").src = "sound-icon.png";
+            mysterySound.play();
+            mysterySound.loop();
+          }
+        });
+
+      const hints = {
+        crossword: "HINT: Look at the first letters of each word!",
+        map: "HINT: female killer",
+        autopsy: "HINT: Look at the estimated time of death on the autopsy",
+        newsletter: "HINT: Maybe try looking at the autopsy as well",
+        deposition: "HINT: Look at the estimated time of death on the autopsy",
+      };
+
+      let suspectLocked = false;
+
+      input.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") {
+          const cmd = input.value.trim().toLowerCase();
+          const response =
+            hints[cmd] || "Unknown command. Click ❔ for available commands.";
+          output.textContent += `\n> ${cmd}\n${response}`;
+          input.value = "";
+        }
+      });
+
+      readyButton.addEventListener("click", function () {
+        document.getElementById("suspectInput").style.display = "block";
+      });
+
+      suspectInput.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" && !suspectLocked) {
+          const guess = suspectInput.value.trim().toLowerCase();
+          suspectLocked = true;
+          suspectInput.disabled = true;
+
+          if (guess === "christine") {
+            document.getElementById("finalStory").style.display = "block";
+          } else {
+            alert(
+              "❌ That’s not who did it. You’ve embarrassed yourself in front of the entire precinct.\nMaybe consider a different career?"
+            );
+          }
+        }
+      });
+
+      helpIcon.addEventListener("click", function () {
+        helpMenu.style.display =
+          helpMenu.style.display === "none" ? "block" : "none";
+      });
+    </script>
+  </body>
+</html>
